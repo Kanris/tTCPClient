@@ -18,7 +18,7 @@
         <TextBox x:Name="tbMessage" HorizontalAlignment="Left" Height="67" Margin="20,90,0,0" TextWrapping="Wrap" Text="{Binding Message}" Foreground="{DynamicResource CloseButtonStrokeHighlighted}" Style="{DynamicResource StandardTextBox}" VerticalAlignment="Top" Width="325"/>
         <TextBox x:Name="tbLog" IsReadOnly="True" HorizontalAlignment="Left" Height="132" Margin="20,206,0,0" TextWrapping="Wrap" Text="{Binding Log}" Foreground="{DynamicResource CloseButtonStrokeHighlighted}" Style="{DynamicResource StandardTextBox}" VerticalAlignment="Top" Width="405"/>
 
-        <Rectangle Fill="#007acc" HorizontalAlignment="Left" Height="39" Margin="0,162,0,0"  VerticalAlignment="Top" Width="444"/>
+        <Rectangle Fill="{DynamicResource BlueBrush}" HorizontalAlignment="Left" Height="39" Margin="0,162,0,0"  VerticalAlignment="Top" Width="444"/>
         <Label Content="Logs" HorizontalAlignment="Left" Foreground="{DynamicResource CloseButtonStrokeHighlighted}" Margin="22,167,0,0" VerticalAlignment="Top" Height="29"/>
         <Button x:Name="btnSend" Click="BtnSend_Click" Content="Send" Style="{DynamicResource LowStandardButton}" IsEnabled="False" HorizontalAlignment="Left" Margin="350,137,0,0" VerticalAlignment="Top" Width="75"/>
 

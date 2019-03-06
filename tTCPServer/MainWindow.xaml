@@ -21,7 +21,7 @@
 
         <Rectangle Fill="#007acc" HorizontalAlignment="Left" Height="39" Margin="0,162,0,0"  VerticalAlignment="Top" Width="444"/>
         <Label Content="Logs" HorizontalAlignment="Left" Foreground="{DynamicResource CloseButtonStrokeHighlighted}" Margin="22,167,0,0" VerticalAlignment="Top" Height="29"/>
-        <Button x:Name="btnSend" Content="Send" Style="{DynamicResource LowStandardButton}" IsEnabled="False" HorizontalAlignment="Left" Margin="350,137,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="btnSend" Click="BtnSend_Click" Content="Send" Style="{DynamicResource LowStandardButton}" IsEnabled="False" HorizontalAlignment="Left" Margin="350,137,0,0" VerticalAlignment="Top" Width="75"/>
         <Button x:Name="btnStop" Content="Stop" Style="{DynamicResource LowStandardButton}" IsEnabled="False" HorizontalAlignment="Left" Margin="350,51,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="2.935,-2.679" Height="23" Click="BtnStop_Click"/>
 
     </Grid>

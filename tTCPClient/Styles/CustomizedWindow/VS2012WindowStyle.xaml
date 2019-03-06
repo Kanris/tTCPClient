@@ -75,7 +75,7 @@
                             Width="Auto"
                             Height="Auto"
                             Background="#EFEFF2"
-                            BorderBrush="{StaticResource VS2012WindowBorderBrush}"
+                            BorderBrush="{DynamicResource BlueBrush}"
                             BorderThickness="1"
                             Padding="0">
                                 <DockPanel

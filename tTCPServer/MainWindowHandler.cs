@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SimpleTCP;
 using System.Net;
 using System.Windows.Controls;
+using System.Net.Sockets;
 
 namespace tTCPServer
 {
@@ -13,6 +14,7 @@ namespace tTCPServer
     {
         private MainWindowDataContext m_MainWindowDataContext; //MainWindow.xaml datacontext
         private SimpleTcpServer m_Server; //server reference
+        private List<TcpClient> m_Clients; //connected clients;
 
         //property to return DataContext
         public MainWindowDataContext DataContext
@@ -29,6 +31,7 @@ namespace tTCPServer
         public MainWindowHandler()
         {
             m_MainWindowDataContext = new MainWindowDataContext(); //initialize data context
+            m_Clients = new List<TcpClient>(); //initialize clients list
             InitializeServer(); //initialize server values and events
         }
 
@@ -93,6 +96,38 @@ namespace tTCPServer
             }
         }
 
+        /// <summary>
+        /// Send message to connected client
+        /// </summary>
+        public void SendMessageToClient()
+        {
+            try
+            {
+                if (m_Clients.Count > 0)
+                {
+                    var buffer = Encoding.UTF8.GetBytes(DataContext.Message);
+
+                    foreach (var client in m_Clients)
+                    {
+                        var networkStream = client.GetStream();
+
+                        networkStream.Write(buffer, 0, buffer.Length);
+                    }
+
+                    LogToTextBox($"Message was sent to the connected clients.");
+                }
+                else
+                {
+                    LogToTextBox($"There is not clients to receive message");
+                }
+            }
+            catch (Exception ex)
+            {
+                LogToTextBox("Couldn't send message to clients");
+                LogToTextBox(ex.Message);
+            }
+        }
+
         #region event methods
 
         /// <summary>
@@ -103,6 +138,9 @@ namespace tTCPServer
         private void Server_ClientDisconnected(object sender, System.Net.Sockets.TcpClient e)
         {
             LogToTextBox($"{(e.Client.LocalEndPoint as IPEndPoint).Address} is disconected.");
+
+            m_Clients.Remove(e);
+            LogToTextBox($"Connected clients> {m_Clients.Count}");
         }
 
         /// <summary>
@@ -113,6 +151,9 @@ namespace tTCPServer
         private void Server_ClientConnected(object sender, System.Net.Sockets.TcpClient e)
         {
             LogToTextBox($"{(e.Client.LocalEndPoint as IPEndPoint).Address} is connected.");
+
+            m_Clients.Add(e); //add client to the list
+            LogToTextBox($"Connected clients> {m_Clients.Count}");
         }
 
         /// <summary>

@@ -47,6 +47,11 @@ namespace tTCPServer
             SetActiveStartButton(true);
         }
 
+        private void BtnSend_Click(object sender, RoutedEventArgs e)
+        {
+            m_MainWindowHandler.SendMessageToClient();
+        }
+
         private void SetActiveStartButton(bool value)
         {
             btnStop.IsEnabled = !value;
