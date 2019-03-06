@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using SimpleTCP;
 using System.Net;
@@ -51,6 +52,17 @@ namespace tTCPServer
         }
 
         /// <summary>
+        /// Check is DataContext.IPAddress is valid IPAddress
+        /// </summary>
+        /// <returns>True if IPAddress is valid and false if IPAddress is not valid</returns>
+        private bool IsValidIP()
+        {
+            var pattern = @"^([0-9]{1,3}\.){3}([0-9]{1,3})$";
+
+            return Regex.IsMatch(DataContext.IPAddress, pattern);
+        }
+
+        /// <summary>
         /// Display changes in log textbox
         /// </summary>
         /// <param name="message">Message to display</param>
@@ -67,21 +79,35 @@ namespace tTCPServer
         /// <summary>
         /// Start server
         /// </summary>
-        public void StartServer()
+        public bool StartServer()
         {
+            var isServerStarted = true;
+
             try
             {
-                var iPAddress = IPAddress.Parse(m_MainWindowDataContext.IPAddress); //get ip address
-                m_Server.Start(iPAddress, m_MainWindowDataContext.Port); //try to start server with values
+                if (IsValidIP())
+                {
+                    var iPAddress = IPAddress.Parse(m_MainWindowDataContext.IPAddress); //get ip address
+                    m_Server.Start(iPAddress, m_MainWindowDataContext.Port); //try to start server with values
 
-                LogToTextBox($"Server started> {iPAddress}:{m_MainWindowDataContext.Port}"); //show message that server starts
+                    LogToTextBox($"Server started> {iPAddress}:{m_MainWindowDataContext.Port}"); //show message that server starts
+                }
+                else
+                {
+                    LogToTextBox($"Couldn't start server with this ip address"); //show message that server starts
+                    isServerStarted = false;
+                }
             }
             catch (Exception ex)
             {
                 //display error message in log textbox
                 LogToTextBox("Couldn't start server");
                 LogToTextBox(ex.Message);
+
+                isServerStarted = false;
             }
+
+            return isServerStarted;
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using SimpleTCP;
 
@@ -41,7 +42,18 @@ namespace tTCPClient
             m_Client.StringEncoder = Encoding.UTF8; //set message encoder
             m_Client.DataReceived += Client_DataReceived; //subscribe to event when client received message
         }
-        
+
+        /// <summary>
+        /// Check is DataContext.IPAddress is valid IPAddress
+        /// </summary>
+        /// <returns>True if IPAddress is valid and false if IPAddress is not valid</returns>
+        private bool IsValidIP()
+        {
+            var pattern = @"^([0-9]{1,3}\.){3}([0-9]{1,3})$";
+
+            return Regex.IsMatch(DataContext.IPAddress, pattern);
+        }
+
         /// <summary>
         /// Write message to log text box
         /// </summary>
@@ -66,8 +78,15 @@ namespace tTCPClient
 
             try
             {
-                m_Client.Connect(m_DataContext.IPAddress, m_DataContext.Port); //try to connect to the server
-                LogToTextBox($"Connected to server> {m_DataContext.IPAddress}:{m_DataContext.Port}"); //display connect info
+                if (IsValidIP())
+                {
+                    m_Client.Connect(m_DataContext.IPAddress, m_DataContext.Port); //try to connect to the server
+                    LogToTextBox($"Connected to server> {m_DataContext.IPAddress}:{m_DataContext.Port}"); //display connect info
+                }
+                else
+                {
+                    LogToTextBox("Couldn't connect to server with this IP address.");
+                }
             }
             catch (Exception ex)
             {

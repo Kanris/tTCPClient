@@ -25,6 +25,7 @@ namespace tTCPServer
         {
             set
             {
+                //value = ;
                 m_IPAddress = value;
                 OnPropertyChanged(); //notify window that property changed
             }

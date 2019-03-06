@@ -37,8 +37,10 @@ namespace tTCPServer
 
         private void BtnStart_Click(object sender, RoutedEventArgs e)
         {
-            m_MainWindowHandler.StartServer(); //start server            
-            SetActiveStartButton(false);
+            var isCreated = m_MainWindowHandler.StartServer(); //start server   
+            
+            if (isCreated)
+                SetActiveStartButton(false);
         }
 
         private void BtnStop_Click(object sender, RoutedEventArgs e)
@@ -57,6 +59,16 @@ namespace tTCPServer
             btnStop.IsEnabled = !value;
             btnSend.IsEnabled = !value;
             btnStart.IsEnabled = value;
+        }
+
+        /// <summary>
+        /// Only character allowed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TbIpAddress_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            tbIpAddress.Text = new string(tbIpAddress.Text.Where(x => Char.IsDigit(x) || x == '.').ToArray());
         }
     }
 }

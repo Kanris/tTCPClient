@@ -10,7 +10,7 @@
         Foreground="{DynamicResource CloseButtonStroke}">
     <Grid Background="{DynamicResource BackgroundNormal}">
         <Label Content="Host:" HorizontalAlignment="Left" Foreground="{DynamicResource CloseButtonStrokeHighlighted}" Margin="20,20,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="tbIpAddress" HorizontalAlignment="Left" Height="23" Margin="20,51,0,0" TextWrapping="Wrap" Text="{Binding IPAddress}" Foreground="{DynamicResource CloseButtonStrokeHighlighted}" Style="{DynamicResource StandardTextBox}" VerticalAlignment="Top" Width="200"/>
+        <TextBox x:Name="tbIpAddress" HorizontalAlignment="Left" Height="23" Margin="20,51,0,0" TextWrapping="Wrap" Text="{Binding IPAddress}" Foreground="{DynamicResource CloseButtonStrokeHighlighted}" Style="{DynamicResource StandardTextBox}" VerticalAlignment="Top" Width="200" TextChanged="TbIpAddress_TextChanged" />
         <Label Content="Port:" HorizontalAlignment="Left" Foreground="{DynamicResource CloseButtonStrokeHighlighted}" Margin="225,20,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="tbPort" HorizontalAlignment="Left" Height="23" Margin="225,51,0,0" TextWrapping="Wrap" Text="{Binding Port}" Foreground="{DynamicResource CloseButtonStrokeHighlighted}" Style="{DynamicResource StandardTextBox}" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="btnStart" Content="Connect" Style="{DynamicResource LowStandardButton}" HorizontalAlignment="Left" Margin="350,51,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="2.935,-2.679" Height="23" Click="BtnConnect_Click"/>

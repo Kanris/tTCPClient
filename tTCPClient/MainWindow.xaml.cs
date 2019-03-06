@@ -45,5 +45,10 @@ namespace tTCPClient
         {
             m_MainWindowHandler.SendMessage(); //send message to server
         }
+
+        private void TbIpAddress_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            tbIpAddress.Text = new string(tbIpAddress.Text.Where(x => Char.IsDigit(x) || x == '.').ToArray());
+        }
     }
 }
