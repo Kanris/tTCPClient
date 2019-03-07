@@ -34,16 +34,16 @@ namespace tTCPClient
             this.DataContext = m_MainWindowHandler.DataContext; //set data context
         }
 
-        private void BtnConnect_Click(object sender, RoutedEventArgs e)
+        private async void BtnConnect_Click(object sender, RoutedEventArgs e)
         {
-            var isConnected = m_MainWindowHandler.ConnectToServer(); //connect to server
+            var isConnected = await m_MainWindowHandler.ConnectToServer(); //connect to server
 
             btnSend.IsEnabled = isConnected; //enable/disable button base on client is connected or not
         }
 
-        private void BtnSend_Click(object sender, RoutedEventArgs e)
+        private async void BtnSend_Click(object sender, RoutedEventArgs e)
         {
-            m_MainWindowHandler.SendMessage(); //send message to server
+            await m_MainWindowHandler.SendMessage(); //send message to server
         }
 
         private void TbIpAddress_TextChanged(object sender, TextChangedEventArgs e)

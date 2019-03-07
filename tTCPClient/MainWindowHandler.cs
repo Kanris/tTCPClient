@@ -72,30 +72,34 @@ namespace tTCPClient
         /// Connect to server
         /// </summary>
         /// <returns></returns>
-        public bool ConnectToServer()
+        public async Task<bool> ConnectToServer()
         {
             var isConnected = true; //indicates if client is connect to server
 
-            try
+            await Task.Run(() =>
             {
-                if (IsValidIP())
+                try
                 {
-                    m_Client.Connect(m_DataContext.IPAddress, m_DataContext.Port); //try to connect to the server
-                    LogToTextBox($"Connected to server> {m_DataContext.IPAddress}:{m_DataContext.Port}"); //display connect info
+                    if (IsValidIP())
+                    {
+                        m_Client.Connect(m_DataContext.IPAddress, m_DataContext.Port); //try to connect to the server
+                        LogToTextBox($"Connected to server> {m_DataContext.IPAddress}:{m_DataContext.Port}"); //display connect info
+                    }
+                    else
+                    {
+                        LogToTextBox("Couldn't connect to server with this IP address.");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    LogToTextBox("Couldn't connect to server with this IP address.");
-                }
-            }
-            catch (Exception ex)
-            {
-                //display connection error
-                LogToTextBox($"Cant' connect to the server> {m_DataContext.IPAddress}:{m_DataContext.Port}");
-                LogToTextBox(ex.Message);
+                    //display connection error
+                    LogToTextBox($"Cant' connect to the server> {m_DataContext.IPAddress}:{m_DataContext.Port}");
+                    LogToTextBox(ex.Message);
 
-                isConnected = false; //indicate that client could connect to server
-            }
+                    isConnected = false; //indicate that client could connect to server
+                }
+
+            });
 
             return isConnected;
         }
@@ -103,18 +107,21 @@ namespace tTCPClient
         /// <summary>
         /// Send text message to server
         /// </summary>
-        public void SendMessage()
+        public async Task SendMessage()
         {
-            try
+            await Task.Run(() =>
             {
-                m_Client.WriteLineAndGetReply(m_DataContext.Message, TimeSpan.FromSeconds(3)); //send message to server
-            }
-            catch (Exception ex)
-            {
-                //display send message error
-                LogToTextBox("Couldn't send message to the server!");
-                LogToTextBox(ex.Message);
-            }
+               try
+               {
+                   m_Client.WriteLineAndGetReply(m_DataContext.Message, TimeSpan.FromSeconds(3)); //send message to server
+               }
+               catch (Exception ex)
+               {
+                   //display send message error
+                   LogToTextBox("Couldn't send message to the server!");
+                   LogToTextBox(ex.Message);
+               }
+            });
         }
 
         /// <summary>
