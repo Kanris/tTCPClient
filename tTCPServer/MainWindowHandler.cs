@@ -79,33 +79,36 @@ namespace tTCPServer
         /// <summary>
         /// Start server
         /// </summary>
-        public bool StartServer()
+        public async Task<bool> StartServer()
         {
             var isServerStarted = true;
 
-            try
+            await Task.Run(() =>
             {
-                if (IsValidIP())
-                {
-                    var iPAddress = IPAddress.Parse(m_MainWindowDataContext.IPAddress); //get ip address
-                    m_Server.Start(iPAddress, m_MainWindowDataContext.Port); //try to start server with values
+               try
+               {
+                   if (IsValidIP())
+                   {
+                       var iPAddress = IPAddress.Parse(m_MainWindowDataContext.IPAddress); //get ip address
+                       m_Server.Start(iPAddress, m_MainWindowDataContext.Port); //try to start server with values
 
-                    LogToTextBox($"Server started> {iPAddress}:{m_MainWindowDataContext.Port}"); //show message that server starts
-                }
-                else
-                {
-                    LogToTextBox($"Couldn't start server with this ip address"); //show message that server starts
-                    isServerStarted = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                //display error message in log textbox
-                LogToTextBox("Couldn't start server");
-                LogToTextBox(ex.Message);
+                       LogToTextBox($"Server started> {iPAddress}:{m_MainWindowDataContext.Port}"); //show message that server starts
+                   }
+                   else
+                   {
+                       LogToTextBox($"Couldn't start server with this ip address"); //show message that server starts
+                       isServerStarted = false;
+                   }
+               }
+               catch (Exception ex)
+               {
+                   //display error message in log textbox
+                   LogToTextBox("Couldn't start server");
+                   LogToTextBox(ex.Message);
 
-                isServerStarted = false;
-            }
+                   isServerStarted = false;
+               }
+            });
 
             return isServerStarted;
         }
@@ -113,45 +116,53 @@ namespace tTCPServer
         /// <summary>
         /// Stop Server
         /// </summary>
-        public void StopServer()
+        public async Task StopServer()
         {
-            if (m_Server.IsStarted)
+            await Task.Run(() =>
             {
-                m_Server.Stop();
-                LogToTextBox($"Server stoped"); //show message that server starts
-            }
+               if (m_Server.IsStarted)
+               {
+                   m_Server.Stop();
+                   LogToTextBox($"Server stoped"); //show message that server starts
+               }
+            });
         }
 
         /// <summary>
         /// Send message to connected client
         /// </summary>
-        public void SendMessageToClient()
+        public async Task SendMessageToClient()
         {
-            try
+            await Task.Run(() =>
             {
-                if (m_Clients.Count > 0)
-                {
-                    var buffer = Encoding.UTF8.GetBytes(DataContext.Message);
 
-                    foreach (var client in m_Clients)
-                    {
-                        var networkStream = client.GetStream();
+               try
+               {
+                   if (m_Clients.Count > 0)
+                   {
+                       var buffer = Encoding.UTF8.GetBytes(DataContext.Message);
 
-                        networkStream.Write(buffer, 0, buffer.Length);
-                    }
+                       foreach (var client in m_Clients)
+                       {
+                           var networkStream = client.GetStream();
 
-                    LogToTextBox($"Message was sent to the connected clients.");
-                }
-                else
-                {
-                    LogToTextBox($"There is not clients to receive message");
-                }
-            }
-            catch (Exception ex)
-            {
-                LogToTextBox("Couldn't send message to clients");
-                LogToTextBox(ex.Message);
-            }
+                           networkStream.Write(buffer, 0, buffer.Length);
+                       }
+
+                       LogToTextBox($"Message was sent to the connected clients.");
+                   }
+                   else
+                   {
+                       LogToTextBox($"There is not clients to receive message");
+                   }
+               }
+               catch (Exception ex)
+               {
+                   LogToTextBox("Couldn't send message to clients");
+                   LogToTextBox(ex.Message);
+               }
+
+            });
         }
 
         #region event methods

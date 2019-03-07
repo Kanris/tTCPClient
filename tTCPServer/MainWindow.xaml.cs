@@ -35,23 +35,23 @@ namespace tTCPServer
             this.DataContext = m_MainWindowHandler.DataContext; //set data context for MainWindow.xaml
         }
 
-        private void BtnStart_Click(object sender, RoutedEventArgs e)
+        private async void BtnStart_Click(object sender, RoutedEventArgs e)
         {
-            var isCreated = m_MainWindowHandler.StartServer(); //start server   
+            var isCreated = await m_MainWindowHandler.StartServer(); //start server   
             
             if (isCreated)
                 SetActiveStartButton(false);
         }
 
-        private void BtnStop_Click(object sender, RoutedEventArgs e)
+        private async void BtnStop_Click(object sender, RoutedEventArgs e)
         {
-            m_MainWindowHandler.StopServer(); //stop server            
+            await m_MainWindowHandler.StopServer(); //stop server            
             SetActiveStartButton(true);
         }
 
-        private void BtnSend_Click(object sender, RoutedEventArgs e)
+        private async void BtnSend_Click(object sender, RoutedEventArgs e)
         {
-            m_MainWindowHandler.SendMessageToClient();
+            await m_MainWindowHandler.SendMessageToClient();
         }
 
         private void SetActiveStartButton(bool value)
